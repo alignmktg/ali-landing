@@ -1,0 +1,2690 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALI — Product Intelligence</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-void: #060910;
+        --bg-deep: #0b0f1c;
+        --bg-surface: #131830;
+        --bg-card: #1a2040;
+        --bg-card-hover: #222a50;
+        --bg-elevated: #2a3460;
+
+        --text-bright: #f0f2f8;
+        --text-primary: #c0c6d8;
+        --text-secondary: #7a829a;
+        --text-muted: #4a5068;
+
+        --gold: #c9a84c;
+        --gold-soft: rgba(201, 168, 76, 0.12);
+        --gold-glow: rgba(201, 168, 76, 0.25);
+        --blue: #5b8def;
+
+        --critical: #ef4444;
+        --critical-bg: rgba(239, 68, 68, 0.08);
+        --high: #f97316;
+        --high-bg: rgba(249, 115, 22, 0.08);
+        --medium: #eab308;
+        --medium-bg: rgba(234, 179, 8, 0.08);
+        --low: #6b7280;
+        --low-bg: rgba(107, 114, 128, 0.08);
+
+        --cat-gap: #5b8def;
+        --cat-tofu: #10b981;
+        --cat-enterprise: #a855f7;
+        --cat-beyond: #ec4899;
+        --cat-icp: #f59e0b;
+        --cat-micro: #6366f1;
+
+        --icp-a1: #5b8def;
+        --icp-a2: #a855f7;
+        --icp-a3: #10b981;
+        --icp-a4: #f59e0b;
+
+        --max-w: 960px;
+        --r: 14px;
+        --r-sm: 10px;
+      }
+
+      html {
+        background: var(--bg-void);
+        color: var(--text-primary);
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+        font-size: 17px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        min-height: 100vh;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Fraunces", Georgia, serif;
+        color: var(--text-bright);
+        font-weight: 500;
+        line-height: 1.25;
+      }
+
+      /* ── GRAIN ── */
+      .grain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+        opacity: 0.5;
+      }
+
+      /* ── HEADER ── */
+      header {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 56px 24px 0;
+      }
+      header h1 {
+        font-size: 2.2rem;
+        letter-spacing: -0.03em;
+        margin-bottom: 6px;
+      }
+      header .subtitle {
+        font-size: 0.92rem;
+        color: var(--text-secondary);
+        font-weight: 300;
+      }
+      header .gold-rule {
+        height: 2px;
+        background: linear-gradient(90deg, var(--gold), transparent 60%);
+        margin-top: 20px;
+        opacity: 0.5;
+      }
+
+      /* ── TABS ── */
+      .tabs {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 28px 24px 0;
+        display: flex;
+        gap: 4px;
+      }
+      .tab {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 12px 20px;
+        border-radius: var(--r-sm) var(--r-sm) 0 0;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .tab:hover {
+        color: var(--text-secondary);
+        background: var(--bg-surface);
+      }
+      .tab.active {
+        color: var(--gold);
+        background: var(--bg-deep);
+        border-bottom: 2px solid var(--gold);
+      }
+
+      /* ── BACK NAV ── */
+      .back-nav {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 20px 24px 0;
+      }
+      .back-btn {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-family: inherit;
+        font-size: 0.85rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: var(--r-sm);
+        transition: all 0.2s;
+      }
+      .back-btn:hover {
+        color: var(--gold);
+        background: var(--gold-soft);
+      }
+      .back-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* ── MAIN CONTENT ── */
+      main {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 12px 24px 80px;
+      }
+
+      /* ── VIEW TRANSITIONS ── */
+      .view-enter {
+        animation: viewIn 0.35s ease-out;
+      }
+      @keyframes viewIn {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── SECTION TITLE ── */
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 6px;
+      }
+      .section-sub {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+        font-weight: 300;
+      }
+
+      /* ── SEVERITY BAR ── */
+      .sev-bar {
+        display: flex;
+        height: 56px;
+        border-radius: var(--r);
+        overflow: hidden;
+        margin-bottom: 32px;
+        cursor: pointer;
+      }
+      .sev-bar .seg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: filter 0.2s;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .sev-bar .seg:hover {
+        filter: brightness(1.3);
+      }
+      .sev-bar .seg .count {
+        font-family: "Fraunces", serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+      .sev-bar .seg.critical {
+        background: var(--critical);
+        flex: 11;
+      }
+      .sev-bar .seg.high {
+        background: var(--high);
+        flex: 15;
+      }
+      .sev-bar .seg.medium {
+        background: var(--medium);
+        flex: 16;
+        color: rgba(0, 0, 0, 0.75);
+      }
+      .sev-bar .seg.low {
+        background: var(--low);
+        flex: 2;
+      }
+
+      /* ── STAT CARDS (severity) ── */
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 40px;
+      }
+      .stat-card {
+        background: var(--bg-card);
+        border: 1px solid transparent;
+        border-radius: var(--r);
+        padding: 24px;
+        cursor: pointer;
+        transition: all 0.25s;
+        position: relative;
+        overflow: hidden;
+      }
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        opacity: 0.7;
+      }
+      .stat-card.critical::before {
+        background: var(--critical);
+      }
+      .stat-card.high::before {
+        background: var(--high);
+      }
+      .stat-card.medium::before {
+        background: var(--medium);
+      }
+      .stat-card.low::before {
+        background: var(--low);
+      }
+      .stat-card:hover {
+        background: var(--bg-card-hover);
+        border-color: rgba(255, 255, 255, 0.06);
+        transform: translateY(-2px);
+      }
+      .stat-card .num {
+        font-family: "Fraunces", serif;
+        font-size: 2.6rem;
+        font-weight: 700;
+        color: var(--text-bright);
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .stat-card .label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .stat-card.critical .label {
+        color: var(--critical);
+      }
+      .stat-card.high .label {
+        color: var(--high);
+      }
+      .stat-card.medium .label {
+        color: var(--medium);
+      }
+      .stat-card.low .label {
+        color: var(--low);
+      }
+      .stat-card .note {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        margin-top: 6px;
+      }
+
+      /* ── ACTION CARDS ── */
+      .actions-section {
+        margin-bottom: 48px;
+      }
+      .actions-section h3 {
+        font-size: 1.15rem;
+        margin-bottom: 18px;
+        color: var(--gold);
+      }
+      .action-card {
+        display: flex;
+        gap: 18px;
+        padding: 20px 22px;
+        background: var(--bg-card);
+        border-left: 3px solid var(--gold);
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        margin-bottom: 10px;
+        transition: background 0.2s;
+      }
+      .action-card:hover {
+        background: var(--bg-card-hover);
+      }
+      .action-num {
+        font-family: "Fraunces", serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--gold);
+        min-width: 28px;
+        line-height: 1.1;
+      }
+      .action-body h4 {
+        font-size: 1rem;
+        margin-bottom: 4px;
+        font-weight: 500;
+      }
+      .action-body p {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+      }
+
+      /* ── OPPORTUNITY CARDS ── */
+      .opps-section {
+        margin-bottom: 48px;
+      }
+      .opps-section h3 {
+        font-size: 1.15rem;
+        margin-bottom: 18px;
+        color: var(--cat-tofu);
+      }
+      .opp-card {
+        padding: 20px 22px;
+        background: var(--bg-card);
+        border-left: 3px solid var(--cat-tofu);
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        margin-bottom: 10px;
+      }
+      .opp-card h4 {
+        font-size: 1rem;
+        margin-bottom: 4px;
+        font-weight: 500;
+      }
+      .opp-card p {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+      }
+      .opp-card .refs {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        margin-top: 6px;
+      }
+
+      /* ── FINDING CARDS ── */
+      .finding-card {
+        background: var(--bg-card);
+        border-radius: var(--r);
+        margin-bottom: 12px;
+        overflow: hidden;
+        border: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+      .finding-card:hover {
+        border-color: rgba(255, 255, 255, 0.05);
+      }
+      .finding-header {
+        padding: 22px 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .finding-header:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .finding-id {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-bottom: 4px;
+      }
+      .finding-title {
+        font-family: "Fraunces", serif;
+        font-size: 1.15rem;
+        color: var(--text-bright);
+        font-weight: 500;
+        line-height: 1.35;
+        margin-bottom: 10px;
+      }
+      .finding-meta {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .finding-chevron {
+        color: var(--text-muted);
+        transition: transform 0.25s;
+        flex-shrink: 0;
+        margin-top: 4px;
+      }
+      .finding-card.expanded .finding-chevron {
+        transform: rotate(180deg);
+      }
+
+      .finding-detail {
+        padding: 0 24px 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        display: none;
+      }
+      .finding-card.expanded .finding-detail {
+        display: block;
+        animation: detailIn 0.3s ease-out;
+      }
+      @keyframes detailIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .detail-section {
+        margin-top: 20px;
+      }
+      .detail-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+      .detail-text {
+        font-size: 0.92rem;
+        line-height: 1.7;
+      }
+
+      .quote-block {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: var(--r-sm);
+        padding: 14px 18px;
+        margin-bottom: 8px;
+      }
+      .quote-icp {
+        font-size: 0.78rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .quote-text {
+        font-size: 0.88rem;
+        font-style: italic;
+        color: var(--text-secondary);
+      }
+
+      .fix-block {
+        background: var(--gold-soft);
+        border-radius: var(--r-sm);
+        padding: 16px 20px;
+        border-left: 3px solid var(--gold);
+      }
+      .fix-block .detail-label {
+        color: var(--gold);
+      }
+      .fix-block p {
+        font-size: 0.92rem;
+        color: var(--text-primary);
+      }
+
+      /* ── CEO RESPONSE ── */
+      .ceo-response {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: var(--r-sm);
+        padding: 18px 20px;
+        margin-top: 16px;
+        border-left: 3px solid var(--text-muted);
+      }
+      .ceo-response .detail-label {
+        color: var(--text-secondary);
+        margin-bottom: 10px;
+      }
+      .ceo-response-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .badge-position {
+        display: inline-block;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 100px;
+        color: #fff;
+      }
+      .badge-position.agrees {
+        background: #10b981;
+      }
+      .badge-position.partially_agrees {
+        background: #eab308;
+        color: rgba(0, 0, 0, 0.7);
+      }
+      .badge-position.reframes {
+        background: #f97316;
+      }
+      .badge-position.disagrees {
+        background: #ef4444;
+      }
+      .badge-position.defers {
+        background: #5b8def;
+      }
+      .badge-position.nuclear {
+        background: #a855f7;
+      }
+      .ceo-response-text {
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        line-height: 1.65;
+        margin-bottom: 8px;
+      }
+      .new-info-box {
+        background: rgba(91, 141, 239, 0.08);
+        border-left: 3px solid var(--blue);
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        padding: 12px 16px;
+        margin-top: 10px;
+      }
+      .new-info-box .detail-label {
+        color: var(--blue);
+        margin-bottom: 4px;
+      }
+      .new-info-box p {
+        font-size: 0.86rem;
+        color: var(--text-secondary);
+      }
+      .ceo-action-box {
+        background: rgba(16, 185, 129, 0.08);
+        border-left: 3px solid #10b981;
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        padding: 12px 16px;
+        margin-top: 10px;
+      }
+      .ceo-action-box .detail-label {
+        color: #10b981;
+        margin-bottom: 4px;
+      }
+      .ceo-action-box p {
+        font-size: 0.86rem;
+        color: var(--text-secondary);
+      }
+
+      /* ── BADGES ── */
+      .badge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 100px;
+      }
+      .badge-sev {
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .badge-sev.critical {
+        background: var(--critical);
+      }
+      .badge-sev.high {
+        background: var(--high);
+      }
+      .badge-sev.medium {
+        background: var(--medium);
+        color: rgba(0, 0, 0, 0.7);
+      }
+      .badge-sev.low {
+        background: var(--low);
+      }
+
+      .badge-icp {
+        border: 1px solid;
+        background: transparent;
+      }
+      .badge-icp.a1 {
+        color: var(--icp-a1);
+        border-color: rgba(91, 141, 239, 0.3);
+      }
+      .badge-icp.a2 {
+        color: var(--icp-a2);
+        border-color: rgba(168, 85, 247, 0.3);
+      }
+      .badge-icp.a3 {
+        color: var(--icp-a3);
+        border-color: rgba(16, 185, 129, 0.3);
+      }
+      .badge-icp.a4 {
+        color: var(--icp-a4);
+        border-color: rgba(245, 158, 11, 0.3);
+      }
+
+      .badge-cat {
+        color: #fff;
+      }
+      .badge-cat.gap {
+        background: var(--cat-gap);
+      }
+      .badge-cat.tofu {
+        background: var(--cat-tofu);
+      }
+      .badge-cat.enterprise {
+        background: var(--cat-enterprise);
+      }
+      .badge-cat.beyond {
+        background: var(--cat-beyond);
+      }
+      .badge-cat.icp {
+        background: var(--cat-icp);
+        color: rgba(0, 0, 0, 0.7);
+      }
+      .badge-cat.micro {
+        background: var(--cat-micro);
+      }
+
+      /* ── CATEGORY CARDS (brainstorm) ── */
+      .cat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 40px;
+      }
+      .cat-card {
+        background: var(--bg-card);
+        border-radius: var(--r);
+        padding: 28px 24px;
+        cursor: pointer;
+        transition: all 0.25s;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid transparent;
+      }
+      .cat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .cat-card.gap::before {
+        background: var(--cat-gap);
+      }
+      .cat-card.tofu::before {
+        background: var(--cat-tofu);
+      }
+      .cat-card.enterprise::before {
+        background: var(--cat-enterprise);
+      }
+      .cat-card.beyond::before {
+        background: var(--cat-beyond);
+      }
+      .cat-card.icp::before {
+        background: var(--cat-icp);
+      }
+      .cat-card.micro::before {
+        background: var(--cat-micro);
+      }
+      .cat-card:hover {
+        background: var(--bg-card-hover);
+        border-color: rgba(255, 255, 255, 0.06);
+        transform: translateY(-2px);
+      }
+      .cat-card .cat-count {
+        font-family: "Fraunces", serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--text-bright);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .cat-card .cat-name {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: var(--text-bright);
+        margin-bottom: 4px;
+      }
+      .cat-card .cat-desc {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      /* ── PRODUCT CARDS ── */
+      .product-card {
+        background: var(--bg-card);
+        border-radius: var(--r);
+        margin-bottom: 12px;
+        overflow: hidden;
+        border: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+      .product-card:hover {
+        border-color: rgba(255, 255, 255, 0.05);
+      }
+      .product-card.top-pick {
+        border-left: 3px solid var(--gold);
+      }
+      .product-header {
+        padding: 22px 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .product-header:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .product-num {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .product-name {
+        font-family: "Fraunces", serif;
+        font-size: 1.15rem;
+        color: var(--text-bright);
+        font-weight: 500;
+        line-height: 1.35;
+        margin-bottom: 6px;
+      }
+      .product-vp {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        font-style: italic;
+        margin-bottom: 10px;
+      }
+      .product-meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .product-meta .meta-tag {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        background: rgba(255, 255, 255, 0.05);
+        padding: 3px 10px;
+        border-radius: 100px;
+      }
+      .top-pick-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--gold);
+        background: var(--gold-soft);
+        padding: 3px 10px;
+        border-radius: 100px;
+        letter-spacing: 0.04em;
+      }
+
+      .product-detail {
+        padding: 0 24px 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        display: none;
+      }
+      .product-card.expanded .product-detail {
+        display: block;
+        animation: detailIn 0.3s ease-out;
+      }
+      .product-detail ul {
+        padding-left: 18px;
+        margin-top: 4px;
+      }
+      .product-detail li {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        margin-bottom: 6px;
+      }
+      .product-detail .detail-text {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+      }
+
+      /* ── TOP PICKS SECTION ── */
+      .picks-section {
+        margin-bottom: 48px;
+      }
+      .picks-section h3 {
+        font-size: 1.15rem;
+        margin-bottom: 18px;
+        color: var(--gold);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        html {
+          font-size: 16px;
+        }
+        header {
+          padding-top: 36px;
+        }
+        header h1 {
+          font-size: 1.7rem;
+        }
+        .stat-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .cat-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .sev-bar {
+          height: 48px;
+        }
+        .sev-bar .seg .count {
+          font-size: 1.1rem;
+        }
+        .sev-bar .seg {
+          font-size: 0.78rem;
+        }
+      }
+      @media (max-width: 480px) {
+        main {
+          padding: 12px 16px 60px;
+        }
+        header {
+          padding: 28px 16px 0;
+        }
+        .tabs {
+          padding: 20px 16px 0;
+        }
+        .stat-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .cat-grid {
+          grid-template-columns: 1fr;
+        }
+        .sev-bar .seg {
+          flex-direction: column;
+          gap: 2px;
+          font-size: 0.7rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grain"></div>
+
+    <header>
+      <h1>AI Leverage Intelligence</h1>
+      <p class="subtitle">Product Intelligence Dashboard &mdash; March 2026</p>
+      <div class="gold-rule"></div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="redteam">Red Team Findings</button>
+      <button class="tab" data-tab="brainstorm">Product Suite</button>
+    </nav>
+
+    <div id="backnav"></div>
+    <main id="content"></main>
+
+    <script>
+      // ────────────────────────────────────────────
+      // DATA
+      // ────────────────────────────────────────────
+
+      const AGENTS = {
+        a1: { label: "Team Leader", short: "A1" },
+        a2: { label: "AI Enablement", short: "A2" },
+        a3: { label: "COO", short: "A3" },
+        a4: { label: "CFO", short: "A4" },
+      };
+
+      const CRITICAL = [
+        {
+          id: 1,
+          title: "\u201cGround truth\u201d claim vs. self-reported methodology",
+          refs: "A1-03, A2-02, A3-10, A4-02",
+          agents: ["a1", "a2", "a3", "a4"],
+          problem:
+            "The product uses \u201cground truth,\u201d \u201cX-ray,\u201d and \u201cintelligence\u201d language but the methodology is AI-driven interviews \u2014 self-reported data.",
+          quotes: [
+            {
+              icp: "Team Leader",
+              text: "People will overstate, understate, or simply not know",
+            },
+            {
+              icp: "AI Enablement",
+              text: "My CISO will ask \u201chow do you validate?\u201d and it dies in procurement",
+            },
+            {
+              icp: "COO",
+              text: "Interviews give perceptions. System data gives ground truth.",
+            },
+            {
+              icp: "CFO",
+              text: "Self-reported data is directionally useful at best and actively misleading at worst",
+            },
+          ],
+          fix: "Either integrate objective data (SSO logs, license utilization APIs, Copilot/ChatGPT analytics) to triangulate, or rebrand from \u201cground truth\u201d to \u201cstructured assessment.\u201d The former is the right long-term move.",
+          nish: {
+            position: "partially_agrees",
+            response:
+              "Integrate objective data, but usage \u2260 leverage. Interviews are the substance; data is supplementary. \u201cUsage doesn\u2019t mean leverage is being created.\u201d",
+            new_info:
+              "Core strategic reframe: interviews are the primary signal, objective data is supplementary optics for procurement. Usage data = \u201cbuying a gym membership and going to the smoothie bar.\u201d",
+            action:
+              "Add objective data layer for procurement optics, but don\u2019t reposition interviews as secondary. Rebrand from \u201cground truth\u201d to \u201cstructured assessment.\u201d",
+          },
+        },
+        {
+          id: 2,
+          title: "Talent sorting creates legal exposure",
+          refs: "A1-05, A2-06, A3-02, A4-03",
+          agents: ["a1", "a2", "a3", "a4"],
+          problem:
+            "AI capability correlates with age, tenure, disability, socioeconomic access. A formal document sorting employees by \u201cAI readiness\u201d with personnel action recommendations is discoverable in litigation.",
+          quotes: [
+            { icp: "COO", text: "My HR and GC would lose their minds" },
+            {
+              icp: "CFO",
+              text: "Average wrongful termination settlement is $40K\u2013$100K \u2014 one bad case exceeds engagement revenue",
+            },
+            {
+              icp: "AI Enablement",
+              text: "NYC Local Law 144, EU AI Act Article 6 \u2014 AI-driven talent assessments are increasingly regulated",
+            },
+          ],
+          fix: "Remove problematic language entirely. Reframe all talent intelligence around development pathways. Make talent findings advisory, never written as personnel recommendations. Consult employment law before shipping.",
+          nish: {
+            position: "partially_agrees",
+            response:
+              "Won\u2019t use \u201claggards\u201d or recommend personnel actions. Report surfaces adoption difficulty; decisions stay with leader.",
+            action:
+              "Remove all problematic language. Reframe as development guidance. Add legal disclaimer. Consult employment law.",
+          },
+        },
+        {
+          id: 3,
+          title: "No sample deliverable exists",
+          refs: "A1-02, A3-07, A4-11",
+          agents: ["a1", "a3", "a4"],
+          problem:
+            "The Synchrony deal ($30K, 130 people) is blocked because the output template doesn\u2019t exist. The product\u2019s primary artifact is undefined.",
+          quotes: [
+            {
+              icp: "Team Leader",
+              text: "I can\u2019t take a $30K proposal to my VP without seeing what we get",
+            },
+            {
+              icp: "CFO",
+              text: "A product that sells intelligence but hasn\u2019t defined the artifact is pre-product",
+            },
+          ],
+          fix: "Build 2\u20133 redacted sample deliverables at different scales (10/25/100 people). This is the #1 blocker \u2014 higher priority than any feature work.",
+          nish: {
+            position: "disagrees",
+            response:
+              "Samples exist: Synchrony, Workday, synthetic data versions. One at a public URL. Red team missed it.",
+            new_info:
+              "Sample deliverables already exist in multiple versions. This is a visibility/documentation problem, not a build problem.",
+            action:
+              "Surface and link the existing sample deliverable everywhere. Polish the public URL version for Synchrony if needed.",
+          },
+        },
+        {
+          id: 4,
+          title: "No dollar figures anywhere in the product",
+          refs: "A4-01, A4-06, A3-01",
+          agents: ["a3", "a4"],
+          problem:
+            "The product talks about \u201cAI leverage\u201d but never maps to KPIs leaders already track. No concrete dollar figures exist anywhere.",
+          quotes: [
+            {
+              icp: "CFO",
+              text: "I\u2019ve read every document and cannot find a single concrete dollar figure. I can\u2019t put \u201csmarter decisions\u201d on a board slide.",
+            },
+            {
+              icp: "COO",
+              text: "This product talks about \u201cAI leverage\u201d but never maps to the KPIs I already track",
+            },
+          ],
+          fix: "Define concrete financial outputs: AI tool spend per employee vs. utilization, estimated productivity gain in hours/dollars, cost-of-inaction projection. Each must be a number, not a narrative.",
+          nish: {
+            position: "disagrees",
+            response:
+              "Entire product starts with outcomes context (KPIs, dollars). All insights filtered through financial lens. Already exists.",
+            new_info:
+              "The outcomes context interview captures team KPIs and maps them to org KPIs. Financial context is baked into the methodology, not missing.",
+            action:
+              "Better surface the financial lens in docs and sales materials. The capability exists but isn\u2019t visible.",
+          },
+        },
+        {
+          id: 5,
+          title: "No scale methodology",
+          refs: "A2-01, A1-07, A3-04",
+          agents: ["a1", "a2", "a3"],
+          problem:
+            "How does the assessment work for 130 (Synchrony) or 500+ people?",
+          quotes: [
+            {
+              icp: "AI Enablement",
+              text: "The data collection mechanism at scale is the single most important architectural question",
+            },
+            {
+              icp: "COO",
+              text: "130 people \u00d7 interview time = hundreds of hours. What\u2019s the operational cost?",
+            },
+            {
+              icp: "Team Leader",
+              text: "Nobody told me how long each interview takes or the team\u2019s total time commitment",
+            },
+          ],
+          fix: "Define throughput: time per person, async vs. sync, lite vs. deep modes. Build a lightweight 15-min async path for the broad base, reserve deep interviews for targeted subset.",
+          nish: {
+            position: "disagrees",
+            response:
+              "30\u201345 min per person, 60 min max. AI-assisted = infinite scale. 50, 500, or 5,000 people.",
+            new_info:
+              "Scale methodology already defined: 30\u201345 min interviews, AI-assisted processing enables arbitrary scale.",
+            action:
+              "Document the existing scale methodology clearly. Add per-person time estimates to all sales materials.",
+          },
+        },
+        {
+          id: 6,
+          title: "Team sees this as surveillance",
+          refs: "A1-01",
+          agents: ["a1"],
+          problem:
+            "Running an \u201cX-ray\u201d on your team without their knowledge destroys psychological safety.",
+          quotes: [
+            {
+              icp: "Team Leader",
+              text: "If my team finds out I ran an \u201cX-ray\u201d on them \u2014 and they will \u2014 I\u2019ve destroyed psychological safety overnight.",
+            },
+          ],
+          fix: "Design a \u201cteam member view\u201d so individuals see their own growth map. Build around development, not sorting. Make participation opt-in with visible consent.",
+          nish: {
+            position: "partially_agrees",
+            response:
+              "Yes, but participants get their own individual AI leverage report + professional context asset. Value exchange mitigates perception.",
+            new_info:
+              "Each participant receives their own individual AI leverage report \u2014 not just the leader. This is a reciprocal value exchange, not one-way surveillance.",
+            action:
+              "Lead with the individual deliverable in positioning. Frame as \u201cyour team members get something too.\u201d",
+          },
+        },
+        {
+          id: 7,
+          title: "No competitive positioning",
+          refs: "A2-04, A4-05, A3-09",
+          agents: ["a2", "a3", "a4"],
+          problem:
+            "The docs don\u2019t acknowledge that Copilot Dashboard, Viva Insights, Productiv, or any existing tools exist.",
+          quotes: [
+            {
+              icp: "AI Enablement",
+              text: "Makes me worry the team doesn\u2019t know what they\u2019re competing against",
+            },
+            {
+              icp: "CFO",
+              text: "License utilization data already exists \u2014 why pay more?",
+            },
+          ],
+          fix: "Build explicit positioning: \u201cWhat Copilot Dashboard tells you vs. what ALI tells you.\u201d Position as the interpretive layer above tool-level dashboards.",
+          nish: {
+            position: "reframes",
+            response:
+              "\u201cWhat we\u2019re positioning against is what a consultant might do.\u201d Not dashboards \u2014 methodology vs. methodology.",
+            new_info:
+              "ALI competes with consultants, not dashboard tools. The positioning axis is methodology, not features.",
+            action:
+              "Reframe competitive positioning entirely: ALI vs. a consulting engagement, not ALI vs. Copilot Dashboard.",
+          },
+        },
+        {
+          id: 8,
+          title: "Interview data won\u2019t survive procurement",
+          refs: "A2-02",
+          agents: ["a2"],
+          problem:
+            "Enterprise procurement teams and CISOs will immediately challenge self-reported data methodology.",
+          quotes: [
+            {
+              icp: "AI Enablement",
+              text: "My procurement team and CISO will ask: \u201cIs this self-reported data?\u201d and \u201cHow do you validate it?\u201d If yes and \u201cwe don\u2019t,\u201d this dies in procurement.",
+            },
+          ],
+          fix: "Integrate at least one objective data layer. Position interviews as enrichment on top of telemetry, not the primary signal.",
+          nish: {
+            position: "partially_agrees",
+            response:
+              "Will add objective data layer, but \u201cthat\u2019s still surface level.\u201d Objective data = procurement optics, not the real signal.",
+            action:
+              "Add objective data integration for procurement checkbox. Don\u2019t reposition it as primary \u2014 it\u2019s optics.",
+          },
+        },
+        {
+          id: 9,
+          title: "No benchmarking or cross-team comparability",
+          refs: "A2-03, A3-03, A1-08, A4-08",
+          agents: ["a1", "a2", "a3", "a4"],
+          problem:
+            "\u201cCompared to what?\u201d No internal cross-team comparison. No external industry benchmarks.",
+          quotes: [
+            {
+              icp: "COO",
+              text: "An X-ray without a baseline is just a picture",
+            },
+            {
+              icp: "Team Leader",
+              text: "I\u2019d kill for peer benchmarking data",
+            },
+          ],
+          fix: "Build anonymized benchmark layer from aggregate client data. Even rough percentiles dramatically increase actionability. This also becomes a data moat.",
+          nish: {
+            position: "agrees",
+            response:
+              "Team \u2192 org \u2192 industry. Benchmarking grows with customer base. Not missing \u2014 sequenced.",
+            new_info:
+              "\u201cBenchmarking against self\u201d is the core metric. Self-delta over time > external comparison. External benchmarks come as customer base grows.",
+            action:
+              "Position \u201cbenchmarking against self\u201d as the primary metric. External benchmarks are a phased rollout.",
+          },
+        },
+        {
+          id: 10,
+          title: "No connection to operating plan metrics",
+          refs: "A3-01",
+          agents: ["a3"],
+          problem:
+            "If leaders can\u2019t see how AI adoption affects their existing scorecard, this is a parallel universe of metrics.",
+          quotes: [
+            {
+              icp: "COO",
+              text: "If I can\u2019t see how AI adoption affects my existing scorecard, this is a parallel universe of metrics I manage on top of everything else.",
+            },
+          ],
+          fix: "Map ALI outputs to 5\u20137 standard operating metrics (revenue per head, cycle time, cost of delivery). Ship a sample deliverable showing this bridge.",
+          nish: {
+            position: "disagrees",
+            response:
+              "Outcomes context interview captures team KPIs and how they ladder to org KPIs. COO interview is an option.",
+            new_info:
+              "The outcomes context interview already maps to operating metrics. Optional COO interview adds org-level KPI connection.",
+            action:
+              "Surface the existing outcomes context \u2192 KPI mapping in documentation and sample deliverable.",
+          },
+        },
+        {
+          id: 11,
+          title: "Assessment can\u2019t demonstrate its own ROI",
+          refs: "A4-04, A3-09",
+          agents: ["a3", "a4"],
+          problem:
+            "$30K fee + $5K in employee opportunity cost. What\u2019s the expected dollar return?",
+          quotes: [
+            {
+              icp: "CFO",
+              text: "$30K fee + $5K in employee opportunity cost. What\u2019s the expected dollar return?",
+            },
+            {
+              icp: "COO",
+              text: "Procurement will kick back \u201cyou\u2019ll know more about AI adoption\u201d",
+            },
+          ],
+          fix: "Build buyer-facing ROI calculator. \u201cALI identifies 3 use cases worth $X each + prevents 1 departure worth $Y in replacement costs = Z:1 return on $30K.\u201d",
+          nish: {
+            position: "disagrees",
+            response:
+              "Guarantee: \u201c3 smarter decisions or don\u2019t pay.\u201d ROI = decisions enabled, not financial delta.",
+            new_info:
+              "A guarantee mechanism exists: \u201c3 smarter decisions or don\u2019t pay.\u201d This is the most powerful sales tool ALI has and it\u2019s invisible in all docs.",
+            action:
+              "Document and promote the guarantee mechanism. Add to website, sales deck, sample deliverable.",
+          },
+        },
+      ];
+
+      const HIGH = [
+        {
+          id: "A1-04",
+          title: "No Monday morning playbook",
+          icp: "Team Leader",
+          issue:
+            "Report gives diagnosis, no treatment plan. Need bundled \u201cplays\u201d with templates.",
+          nish: {
+            position: "disagrees",
+            response:
+              "Decision options exist, prioritized by impact + outcomes + constraints + resources. Intentionally advisory, not prescriptive.",
+            new_info:
+              "A 4-dimension decision prioritization framework exists: impact, outcomes, constraints, resources.",
+            action:
+              "Surface the existing decision framework more prominently in deliverable documentation.",
+          },
+        },
+        {
+          id: "A1-06",
+          title: "Assumes team leader has budget authority",
+          icp: "Team Leader",
+          issue:
+            "$30K exceeds discretionary spend. Need team-tier pricing or \u201csell up\u201d enablement.",
+          nish: {
+            position: "agrees",
+            response:
+              "Considering $5K team-tier pricing \u2192 multi-team adoption \u2192 enterprise upsell.",
+            new_info:
+              "$5K team-tier pricing under active consideration as an alternative to $30K.",
+            action:
+              "Develop $5K team-tier pricing model. Build the enterprise upsell motion alongside it.",
+          },
+        },
+        {
+          id: "A1-07",
+          title: "Interview fatigue for 25-person team",
+          icp: "Team Leader",
+          issue:
+            "Time commitment unspecified. Need per-person estimate + async option.",
+          nish: {
+            position: "disagrees",
+            response:
+              "30\u201345 min. Individuals get artifacts back. Already answered.",
+            action:
+              "Document the 30\u201345 min time commitment clearly in all sales materials.",
+          },
+        },
+        {
+          id: "A2-04",
+          title: "Competes with existing tools",
+          icp: "AI Enablement",
+          issue:
+            "Zero competitive positioning against enterprise measurement landscape.",
+          nish: {
+            position: "disagrees",
+            response:
+              "\u201cYou can\u2019t borrow best practices... your AI investments have to be rooted in your own ground truth.\u201d",
+            new_info:
+              "Nish sees existing tools as measuring the wrong thing entirely. Usage \u2260 leverage.",
+            action:
+              "Position ALI as measuring what other tools can\u2019t: leverage, not usage.",
+          },
+        },
+        {
+          id: "A2-05",
+          title: "Longitudinal tracking hand-waved",
+          icp: "AI Enablement",
+          issue:
+            "\u201cOn a cadence\u201d mentioned but no versioned schema, delta reporting, or methodology.",
+          nish: {
+            position: "agrees",
+            response:
+              "Post-first-assessment upsell. Cadence = annual to monthly based on AI culture.",
+            action:
+              "Sell single assessment first, upsell recurring after proving value. Don\u2019t pitch commitment upfront.",
+          },
+        },
+        {
+          id: "A2-06",
+          title: "Talent outputs create legal exposure",
+          icp: "AI Enablement",
+          issue: "AI-generated employment assessments increasingly regulated.",
+          nish: {
+            position: "agrees",
+            response: "It\u2019s development guidance. Needs legal disclaimer.",
+            action:
+              "Add legal disclaimer. Frame all talent outputs as development guidance only.",
+          },
+        },
+        {
+          id: "A2-07",
+          title: "No API or data export",
+          icp: "AI Enablement",
+          issue:
+            "Enterprise buyers need data in their systems, not another portal.",
+          nish: {
+            position: "defers",
+            response:
+              "\u201cIt might be to our advantage not to provide it.\u201d Moat vs. openness decision pending.",
+            new_info:
+              "API/export decision is being weighed strategically as a retention moat.",
+            action:
+              "Decision pending. Weigh data lock-in as retention moat vs. enterprise openness requirement.",
+          },
+        },
+        {
+          id: "A3-04",
+          title: "Assessment disrupts work",
+          icp: "COO",
+          issue:
+            "Hundreds of hours pulled from production. No total-cost-of-engagement model.",
+          nish: {
+            position: "disagrees",
+            response:
+              "\u201cIt doesn\u2019t disrupt work, it enables work.\u201d Discovery value offsets time investment.",
+            action:
+              "Reframe the time investment as discovery that enables better work, not disruption.",
+          },
+        },
+        {
+          id: "A3-05",
+          title: "Time-to-value unspecified",
+          icp: "COO",
+          issue:
+            "No SLA on when buyer sees first output. Loses a quarter if it takes 8 weeks.",
+          nish: {
+            position: "agrees",
+            response:
+              "Report delivered within 48 hours after interviews complete.",
+            new_info:
+              "48-hour turnaround exists: report delivered within 48 hours after interviews complete.",
+            action: "Add 48-hour SLA to all sales materials and proposals.",
+          },
+        },
+        {
+          id: "A3-06",
+          title: "Assumes leaders admit they\u2019re lost",
+          icp: "COO",
+          issue:
+            "Purchase signal = admission of incompetence. Need \u201cproactive leadership\u201d framing.",
+          nish: {
+            position: "partially_agrees",
+            response:
+              "\u201cGood leaders will admit they\u2019re lost.\u201d Reframes: proactive self-benchmarking, not admission.",
+            action:
+              "Reframe purchase as proactive self-benchmarking, not admission of being lost.",
+          },
+        },
+        {
+          id: "A3-07",
+          title: "No decision framework in deliverable",
+          icp: "COO",
+          issue:
+            "\u201cDecision options\u201d described but never structured. Need prioritized action matrix.",
+          nish: {
+            position: "disagrees",
+            response:
+              "Multi-dimensional: impact, outcomes, constraints, resources. Exists.",
+            new_info:
+              "Decision framework exists with 4-dimension prioritization: impact, outcomes, constraints, resources.",
+            action:
+              "Surface the existing decision framework in documentation and sample deliverable.",
+          },
+        },
+        {
+          id: "A3-08",
+          title: "Longitudinal tracking is the real moat",
+          icp: "COO",
+          issue:
+            "Recurring measurement = SaaS product. One-time assessment = consulting engagement.",
+          nish: {
+            position: "agrees",
+            response:
+              "Sell single assessment first, upsell recurring after proving value. Don\u2019t pitch commitment upfront.",
+            action:
+              "Lead with single assessment. Build recurring as a post-value upsell.",
+          },
+        },
+        {
+          id: "A4-04",
+          title: "No cost-of-assessment vs. return analysis",
+          icp: "CFO",
+          issue: "Product promising ROI can\u2019t demonstrate its own ROI.",
+          nish: {
+            position: "disagrees",
+            response:
+              "\u201cThis doesn\u2019t need a demonstrable ROI right from the get go... most ROI statements are treated as bullshit.\u201d",
+            action:
+              "Lead with the guarantee mechanism instead of an ROI calculator.",
+          },
+        },
+        {
+          id: "A4-05",
+          title: "License data already exists free",
+          icp: "CFO",
+          issue: "Duplicating data buyer already has from vendor dashboards.",
+          nish: {
+            position: "disagrees",
+            response:
+              "Usage data = \u201cbuying a gym membership, swiping in every day and going to the smoothie bar instead of actually exercising.\u201d",
+            action:
+              "Position ALI as measuring leverage, not usage. Usage data is a vanity metric.",
+          },
+        },
+        {
+          id: "A4-06",
+          title: "\u201cMassive productivity gains\u201d unmeasured",
+          icp: "CFO",
+          issue:
+            "No baseline, no measurement protocol, no before/after methodology.",
+          nish: {
+            position: "disagrees",
+            response:
+              "ROI = decisions enabled, not financial delta. The guarantee mechanism addresses this.",
+            action:
+              "Reframe ROI around decisions enabled. Document the guarantee mechanism.",
+          },
+        },
+      ];
+
+      const MEDIUM = [
+        {
+          id: "A1-08",
+          title: "I\u2019d kill for peer benchmarking",
+          icp: "Team Leader",
+          nish: {
+            position: "defers",
+            response:
+              "\u201cWill happen over time.\u201d Benchmarking grows with customer base.",
+            action: "Phased rollout. Not a launch blocker.",
+          },
+        },
+        {
+          id: "A1-09",
+          title: "No recurring cadence designed",
+          icp: "Team Leader",
+          nish: {
+            position: "disagrees",
+            response:
+              "\u201cYou keep bringing up the same thing.\u201d Already answered \u2014 cadence is post-assessment upsell.",
+            action: "No change needed. Recurring is a post-value upsell.",
+          },
+        },
+        {
+          id: "A1-10",
+          title: "Ignores the AI skeptic",
+          icp: "Team Leader",
+          nish: {
+            position: "partially_agrees",
+            response:
+              "Skeptics are identified in report. Decision options surfaced. But leader is currently blind to who they are.",
+            action:
+              "Keep skeptic identification in report. Surface decision options for leaders.",
+          },
+        },
+        {
+          id: "A1-11",
+          title: "\u201cAI therapist\u201d backfires with engineers",
+          icp: "Team Leader",
+          nish: {
+            position: "agrees",
+            response:
+              "Not targeting technical teams. Dropping \u201cAI therapist\u201d from positioning.",
+            new_info:
+              "\u201cAI therapist\u201d language officially dropped from positioning.",
+            action:
+              "Remove \u201cAI therapist\u201d from all materials. Not targeting technical teams.",
+          },
+        },
+        {
+          id: "A2-08",
+          title:
+            "\u201cProductized experience\u201d may mean expensive consulting",
+          icp: "AI Enablement",
+          nish: {
+            position: "partially_agrees",
+            response:
+              "\u201cAlmost fully automated. Only human thing = readout of the report.\u201d",
+            new_info:
+              "Process is almost fully automated. Only human element is the report readout.",
+            action:
+              "Emphasize automation in positioning to counter the consulting perception.",
+          },
+        },
+        {
+          id: "A2-09",
+          title: "\u201cUnknown unknowns\u201d is buried differentiator",
+          icp: "AI Enablement",
+          nish: {
+            position: "agrees",
+            response:
+              "\u201cI agree, I think that is the linchpin of the value proposition.\u201d",
+            action:
+              "Make unknown unknowns the headline differentiator. Both red team and CEO agree.",
+          },
+        },
+        {
+          id: "A2-10",
+          title: "No multi-tenant access model",
+          icp: "AI Enablement",
+          nish: {
+            position: "disagrees",
+            response:
+              "Executive summary exists. Versions for upward and downward communication.",
+            new_info:
+              "Multi-version reports exist: executive summary for upward comms, team version for downward comms.",
+            action: "Document the existing multi-version report structure.",
+          },
+        },
+        {
+          id: "A2-11",
+          title: "Five-product sequence creates lock-in anxiety",
+          icp: "AI Enablement",
+          nish: {
+            position: "agrees",
+            response:
+              "\u201cOne product at a time... we\u2019ve earned the right to sell more.\u201d",
+            action:
+              "Lead with single product. Earn the right to sell the next one.",
+          },
+        },
+        {
+          id: "A2-12",
+          title: "Methodology rigor insufficient for board",
+          icp: "AI Enablement",
+          nish: {
+            position: "partially_agrees",
+            response: "\u201cOver time. Not near-term.\u201d",
+            action:
+              "Defer academic rigor to post-launch. Not a launch blocker.",
+          },
+        },
+        {
+          id: "A3-09",
+          title: "$30K doesn\u2019t survive procurement",
+          icp: "COO",
+          nish: {
+            position: "reframes",
+            response:
+              "\u201cPretty big assumption. Justify your response.\u201d Pushes back on the premise.",
+            action:
+              "Test pricing assumptions with actual procurement conversations.",
+          },
+        },
+        {
+          id: "A3-11",
+          title: "Sequence assumes buyer patience",
+          icp: "COO",
+          nish: {
+            position: "disagrees",
+            response:
+              "\u201cAlready answered. Not going to waste more time.\u201d",
+            action:
+              "No change. Single-product launch strategy already addresses this.",
+          },
+        },
+        {
+          id: "A3-12",
+          title: "Maturity model unvalidated",
+          icp: "COO",
+          nish: {
+            position: "agrees",
+            response:
+              "\u201cDon\u2019t think we should use that model right now.\u201d",
+            new_info: "Maturity model explicitly shelved for now.",
+            action:
+              "Remove maturity model from current positioning. Revisit post-launch.",
+          },
+        },
+        {
+          id: "A4-07",
+          title: "Recurring assessment = real value",
+          icp: "CFO",
+          nish: {
+            position: "agrees",
+            response:
+              "Answered multiple times. Recurring is the upsell after proving value.",
+            action:
+              "No change. Recurring is already planned as post-value upsell.",
+          },
+        },
+        {
+          id: "A4-08",
+          title: "No benchmarking data",
+          icp: "CFO",
+          nish: {
+            position: "defers",
+            response: "\u201cNot yet. Will happen over time.\u201d",
+            action: "Phased rollout. Self-benchmarking first, cross-org later.",
+          },
+        },
+        {
+          id: "A4-09",
+          title: "$30K in pricing no-man\u2019s-land",
+          icp: "CFO",
+          nish: {
+            position: "agrees",
+            response:
+              "\u201cMight have to consider dropping to $5\u2013$15K.\u201d",
+            new_info:
+              "$5\u2013$15K team-tier pricing under active consideration.",
+            action: "Develop team-tier pricing at $5\u2013$15K range.",
+          },
+        },
+        {
+          id: "A4-10",
+          title: "Five-product sequence multiplies cost",
+          icp: "CFO",
+          nish: {
+            position: "agrees",
+            response: "\u201cWe have to prove the value of it.\u201d",
+            action:
+              "Lead with single product, earn expansion. Don\u2019t pitch the sequence upfront.",
+          },
+        },
+      ];
+
+      const LOW = [
+        {
+          id: "A1-12",
+          title:
+            "\u201cNew possibilities\u201d framing premature for most teams",
+          icp: "Team Leader",
+          nish: {
+            position: "defers",
+            response: "\u201cEh, maybe things are moving so fast.\u201d",
+            action: "Low priority. Revisit post-launch.",
+          },
+        },
+        {
+          id: "A4-12",
+          title: "\u201cIntelligence\u201d framing obscures assessment product",
+          icp: "CFO",
+          nish: {
+            position: "nuclear",
+            response:
+              "\u201cIt isn\u2019t a structured survey... Absolutely not a survey.\u201d Identity-level rejection of the characterization.",
+            action:
+              "Never use \u201csurvey\u201d language. Ever. This is a core identity boundary.",
+          },
+        },
+      ];
+
+      const OPPORTUNITIES = [
+        {
+          title: "\u201cUnknown unknowns\u201d is the real differentiator",
+          refs: "A2-09",
+          desc: "Surfacing what you\u2019re NOT doing with AI but SHOULD be. No existing tool does this. CEO confirmed: \u201clinchpin of the value proposition.\u201d",
+        },
+        {
+          title: "Longitudinal tracking is the moat",
+          refs: "A3-08, A4-07",
+          desc: "One-time assessment = consulting. Recurring measurement with delta reporting = SaaS product with 10x retention.",
+        },
+        {
+          title: "Benchmarking creates a data flywheel",
+          refs: "A1-08, A2-03, A3-03, A4-08",
+          desc: "Anonymized cross-client benchmarks get better with scale, creating a moat competitors can\u2019t replicate.",
+        },
+        {
+          title: "Two-assessment pricing model",
+          refs: "A4-07",
+          desc: "First assessment = baseline. Second (90 days) = measured delta. The delta IS the ROI proof.",
+        },
+        {
+          title: "Consultant positioning",
+          refs: "#7",
+          desc: "ALI competes with consultants, not dashboards. Methodology vs. methodology. Reframes the entire competitive landscape.",
+        },
+      ];
+
+      const TOP_ACTIONS = [
+        {
+          title: "Surface the sample deliverable",
+          desc: "It exists \u2014 red team missed it. Link it everywhere. Polish the public URL version. This is a visibility problem, not a build problem.",
+        },
+        {
+          title: "Document the guarantee mechanism",
+          desc: "\u201c3 smarter decisions or don\u2019t pay\u201d is the most powerful sales tool ALI has and it\u2019s invisible. Add to website, sales deck, sample deliverable.",
+        },
+        {
+          title: "Remove problematic language, add legal disclaimer",
+          desc: "Remove \u201claggards\u201d and personnel action language. Reframe as development guidance. Consult employment law. Non-negotiable.",
+        },
+        {
+          title: "Lead with unknown unknowns",
+          desc: "CEO confirmed: \u201clinchpin of the value proposition.\u201d Make it the headline. Both red team and CEO agree.",
+        },
+        {
+          title: "Develop $5K team-tier pricing",
+          desc: "CEO actively considering it. Unlocks team-leader discretionary spend. Build the enterprise upsell motion alongside it.",
+        },
+      ];
+
+      const CATEGORIES = {
+        gap: {
+          label: "Gap Fill",
+          desc: "Products that fill gaps between existing Products 1\u20135",
+          color: "gap",
+        },
+        tofu: {
+          label: "Below / TOFU",
+          desc: "Simpler, cheaper, faster \u2014 top-of-funnel wedge plays",
+          color: "tofu",
+        },
+        enterprise: {
+          label: "Above / Enterprise",
+          desc: "Higher-value strategic products for larger orgs",
+          color: "enterprise",
+        },
+        beyond: {
+          label: "Beyond P5",
+          desc: "Extends past Context as a Service",
+          color: "beyond",
+        },
+        icp: {
+          label: "New ICPs",
+          desc: "Serves buyer personas not yet addressed",
+          color: "icp",
+        },
+        micro: {
+          label: "Micro-products",
+          desc: "Buildable in a week \u2014 point solutions",
+          color: "micro",
+        },
+      };
+
+      const PRODUCTS = [
+        {
+          num: 1,
+          name: "AI Governance Intelligence",
+          cat: "gap",
+          icp: "GC/CISO, COO",
+          effort: "3\u20134 weeks",
+          complexity: "Medium",
+          vp: "Know what\u2019s exposed before someone else tells you.",
+          pain: "Leaders discover employees are feeding customer data into AI tools with no guardrails. The adoption they celebrated is also the compliance liability nobody scoped.",
+          does: [
+            "Maps actual AI usage against governance risk surface \u2014 data leakage, IP exposure, regulatory gaps",
+            "Generates prioritized governance gap analysis",
+            "Produces draft AI usage policy scaffolded to org context and industry",
+          ],
+          context:
+            "Adds regulatory environment, data classification, risk tolerance to org profile.",
+          cross:
+            "From ALI: \u201cYou know what your team is doing. Do you know what they\u2019re risking?\u201d",
+        },
+        {
+          num: 2,
+          name: "AI Workflow Intelligence",
+          cat: "gap",
+          icp: "Team Leader",
+          effort: "3\u20134 weeks",
+          complexity: "Medium",
+          vp: "Find the wormholes hiding in your team\u2019s daily work.",
+          pain: "The roadmap identified opportunity areas, but nobody has mapped the actual workflows where AI could create 10x leverage.",
+          does: [
+            "Interviews team members about actual day-to-day workflows",
+            "Applies \u201cFinding Wormholes\u201d framework: where AI changes geometry of work, not just speed",
+            "Produces prioritized workflow transformation map with expected leverage",
+          ],
+          context:
+            "Deep workflow-level data \u2014 task frequency, time allocation, judgment requirements.",
+          cross:
+            "From Readiness Roadmap: \u201cYour roadmap says \u2018transform customer onboarding.\u2019 Here\u2019s exactly how.\u201d",
+        },
+        {
+          num: 3,
+          name: "AI Investment Intelligence",
+          cat: "gap",
+          icp: "CFO",
+          effort: "2\u20133 weeks",
+          complexity: "Medium",
+          vp: "Stop funding AI theater. Invest in AI leverage.",
+          pain: "The CFO is asking \u201cwhat\u2019s the AI budget and what are we getting for it?\u201d \u2014 nobody has a framework for connecting spend to outcomes.",
+          does: [
+            "Cross-references spend against actual usage data and adoption patterns",
+            "Identifies high-spend/low-adoption and low-spend/high-ROI tools",
+            "Produces spend optimization report: renew, cut, consolidate, invest",
+          ],
+          context:
+            "Complete financial picture of AI investment \u2014 tool costs, training costs, opportunity costs.",
+          cross:
+            "From ALI: \u201cYou know what\u2019s happening. Now know what it costs.\u201d",
+        },
+        {
+          num: 4,
+          name: "AI Pulse Check",
+          cat: "tofu",
+          icp: "Any Leader",
+          effort: "1 week",
+          complexity: "Low",
+          topPick: true,
+          vp: "Five minutes to find out what you don\u2019t know about your team\u2019s AI reality.",
+          pain: "Leaders know they should \u201cdo something about AI\u201d but ALI feels like a commitment. They need a 5-minute gut check.",
+          does: [
+            "5-question AI interview",
+            "One-page \u201cAI Pulse Score\u201d \u2014 red/yellow/green across three dimensions",
+            "Shareable, designed to be forwarded to a peer or boss",
+            "Every Pulse Check is a warm lead for ALI",
+          ],
+          context:
+            "Minimal but strategic \u2014 role, team size, adoption level, primary concern.",
+          cross:
+            "This IS the cross-sell hook. \u201cYour pulse says yellow on talent readiness. Want to know who specifically?\u201d",
+        },
+        {
+          num: 5,
+          name: "AI Leader Briefing",
+          cat: "tofu",
+          icp: "All ICPs",
+          effort: "1 week",
+          complexity: "Low",
+          vp: "The only AI briefing that knows your job.",
+          pain: "Leaders don\u2019t have time to read AI newsletters but feel guilty about falling behind.",
+          does: [
+            "Weekly micro-briefing: 1\u20132 developments that matter, plain language, no hype",
+            "Each briefing ends with a single action prompt",
+            "Drip engagement that builds the habit of checking BWAI",
+          ],
+          context:
+            "Engagement pattern \u2014 what they click, ignore, forward. Reveals priorities passively.",
+          cross:
+            "Into Signal Intelligence: \u201cWant deeper analysis, not just headlines?\u201d",
+        },
+        {
+          num: 6,
+          name: "AI Team Snapshot",
+          cat: "tofu",
+          icp: "Team Leader",
+          effort: "2\u20133 weeks",
+          complexity: "Medium",
+          topPick: true,
+          vp: "Ask your team the questions you don\u2019t know how to ask.",
+          pain: "Leaders want to know where their team stands but don\u2019t want to be the only data point. ALI interviews the leader \u2014 this interviews the team.",
+          does: [
+            "Leader invites team (5\u201350 people) to complete 10-min AI self-assessment",
+            "Each member answers: tools used, tasks, what\u2019s working, what\u2019s frustrating",
+            "Leader receives aggregated team snapshot with anonymized results",
+            "Individual results enrich context profiles with consent",
+          ],
+          context:
+            "Massive \u2014 individual-level AI usage, tool preferences, capability self-assessment across every IC.",
+          cross:
+            "From ALI: \u201cYou told us about your team. Now let them tell you.\u201d",
+        },
+        {
+          num: 7,
+          name: "AI Transformation Intelligence",
+          cat: "enterprise",
+          icp: "COO, CEO/Board",
+          effort: "4\u20136 weeks",
+          complexity: "High",
+          vp: "The only AI transformation metric that measures what actually changed.",
+          pain: "Six months into an AI transformation, the board asks \u201chow\u2019s it going?\u201d and the answer is still activity metrics.",
+          does: [
+            "Establishes transformation baseline using ALI data",
+            "Quarterly re-assessments across talent, use cases, ROI, maturity",
+            "Tracks movement across AI Math maturity model at individual, team, and org levels",
+            "Board-ready transformation progress reports with leading indicators",
+          ],
+          context:
+            "Longitudinal data \u2014 the most valuable kind. Change over time in capability, adoption, maturity.",
+          cross:
+            "From Readiness Roadmap: \u201cYou built the plan. Now prove it\u2019s working.\u201d",
+        },
+        {
+          num: 8,
+          name: "AI Org Design Intelligence",
+          cat: "enterprise",
+          icp: "COO, CHRO",
+          effort: "4\u20136 weeks",
+          complexity: "High",
+          vp: "Design your org for the work AI makes possible, not the work AI makes obsolete.",
+          pain: "HR is planning headcount with a pre-AI mental model. Leaders are hiring for roles that won\u2019t exist in 18 months.",
+          does: [
+            "Maps current roles against AI-augmented role model",
+            "Identifies roles that get amplified, redefined, obsoleted, or are entirely new",
+            "Produces AI-era org design recommendations",
+            "Includes \u201chuman advantage map\u201d using Optimize for Outcomes framework",
+          ],
+          context:
+            "Organizational structure, role taxonomy, strategic workforce priorities.",
+          cross:
+            "From Skills Accelerator: \u201cYou trained the people. Now redesign the roles.\u201d",
+        },
+        {
+          num: 9,
+          name: "AI Competitive Intelligence",
+          cat: "enterprise",
+          icp: "COO, CEO",
+          effort: "3\u20134 weeks",
+          complexity: "Medium-High",
+          vp: "Know what your competitors are doing with AI before they know what you\u2019re doing.",
+          pain: "Leaders hear their competitor launched an AI-powered product. Panic. No context for whether this matters.",
+          does: [
+            "Monitors public signals: job postings, press releases, patent filings, product launches",
+            "Contextualizes competitor moves against leader\u2019s own AI maturity",
+            "Quarterly competitive AI posture report with strategic implications",
+          ],
+          context:
+            "Competitive landscape, market positioning, strategic anxieties.",
+          cross:
+            "From Signal Intelligence: \u201cYou\u2019re tracking the landscape. Now track your competition.\u201d",
+        },
+        {
+          num: 10,
+          name: "AI Context Marketplace",
+          cat: "beyond",
+          icp: "All + vendors",
+          effort: "8\u201312 weeks",
+          complexity: "High",
+          vp: "Stop guessing if you\u2019re ahead or behind. Know.",
+          pain: "Every organization is making AI decisions in isolation. Nobody has cross-organizational benchmarks grounded in actual data.",
+          does: [
+            "Aggregates anonymized context data across BWAI customers",
+            "Delivers benchmarking reports by industry, org size, and function",
+            "Surfaces cross-org pattern intelligence",
+            "Enables opt-in peer learning",
+          ],
+          context:
+            "Network effects \u2014 the more orgs participate, the richer the benchmarks.",
+          cross:
+            "From Context as a Service: \u201cYour context is valuable to you. Anonymized, it\u2019s valuable to the ecosystem.\u201d",
+        },
+        {
+          num: 11,
+          name: "AI Context API",
+          cat: "beyond",
+          icp: "Developers, AI Lead",
+          effort: "6\u20138 weeks",
+          complexity: "High",
+          vp: "Build AI tools that already know your organization.",
+          pain: "Internal AI developers build custom tools that each start from scratch. The context exists. It\u2019s trapped.",
+          does: [
+            "Exposes organizational context layer as a RESTful API with granular permissions",
+            "SDKs and integration patterns for Slack bots, internal apps, workflow automations",
+            "Context management console for admins to control sharing and audit access",
+          ],
+          context:
+            "Meta-context: API usage patterns reveal which internal tools are being built and what context they need.",
+          cross:
+            "From Context as a Service: \u201cYour context layer is built. Now let your builders use it.\u201d",
+        },
+        {
+          num: 12,
+          name: "AI Career Intelligence",
+          cat: "icp",
+          icp: "Individual Contributors",
+          effort: "3\u20134 weeks",
+          complexity: "Medium",
+          vp: "Your personal AI career X-ray. Know where you stand, where to go.",
+          pain: "ICs hear \u201cAI will change everything\u201d and feel excitement and dread. Am I falling behind? Is my role safe?",
+          does: [
+            "Personalized AI career assessment: current leverage, areas of opportunity, skills to develop",
+            "Frames AI as a career multiplier, not a threat",
+            "Personal AI learning path tailored to actual work",
+          ],
+          context:
+            "Individual-level career aspirations, skill gaps, learning preferences, role-specific workflow data.",
+          cross:
+            "To Team Leader: \u201cYou assessed your team. Now give each person their own intelligence.\u201d",
+        },
+        {
+          num: 13,
+          name: "AI Procurement Intelligence",
+          cat: "icp",
+          icp: "Procurement, CFO",
+          effort: "2\u20133 weeks",
+          complexity: "Medium",
+          vp: "Evaluate AI tools through the lens of your org, not a review site.",
+          pain: "Every team has a different favorite AI tool. Procurement is overwhelmed with vendor evaluations.",
+          does: [
+            "Cross-references against org context: existing tools, adoption patterns, security requirements",
+            "Produces procurement recommendation: buy/don\u2019t buy/wait with org-specific reasoning",
+            "Maintains a living AI tool registry: approved, in use, redundant, missing",
+          ],
+          context:
+            "Complete AI tool landscape \u2014 what\u2019s bought, used, and shelfware.",
+          cross:
+            "From ALI: \u201cYou found out your team uses 14 AI tools. Want to know which ones are worth keeping?\u201d",
+        },
+        {
+          num: 14,
+          name: "AI Board Intelligence",
+          cat: "icp",
+          icp: "CEO, COO, CFO",
+          effort: "2\u20133 weeks",
+          complexity: "Medium",
+          vp: "Walk into the board meeting with the AI narrative your board actually needs.",
+          pain: "Board members are asking about AI. The CEO scrambles to prepare a deck that\u2019s either too technical or too vague.",
+          does: [
+            "Pulls from full context layer to generate board-ready AI narrative",
+            "Structured briefing package: 1-page summary, 3\u20135 page brief, appendix",
+            "Includes \u201cquestions the board will ask\u201d preparation guide",
+          ],
+          context:
+            "Board-level strategic priorities, governance expectations, risk appetite.",
+          cross:
+            "From Transformation Intelligence: \u201cYou\u2019re tracking progress. Now present it to the board.\u201d",
+        },
+        {
+          num: 15,
+          name: "AI Meeting Prep",
+          cat: "micro",
+          icp: "All ICPs",
+          effort: "1 week",
+          complexity: "Low",
+          vp: "Walk into every AI conversation prepared, not panicking.",
+          pain: "Leaders have meetings about AI and wing it every time.",
+          does: [
+            "User describes upcoming meeting: who, what topic, when",
+            "Generates meeting prep brief: talking points, questions to ask, watch-outs",
+            "Post-meeting debrief captures decisions and new context",
+          ],
+          context: "Meeting patterns, decision points, relationship dynamics.",
+          cross:
+            "From any product: \u201cYou have a meeting about this. Let us prep you.\u201d",
+        },
+        {
+          num: 16,
+          name: "AI Jargon Translator",
+          cat: "micro",
+          icp: "All ICPs + ICs",
+          effort: "< 1 week",
+          complexity: "Low",
+          vp: "Understand AI without pretending you already do.",
+          pain: "Leaders encounter AI jargon constantly and nod along while understanding nothing.",
+          does: [
+            "Paste text, URL, or describe a term",
+            "Translates into plain language calibrated to their role",
+            "Explains why it matters (or doesn\u2019t) for their specific context",
+            "Builds personalized AI glossary over time",
+          ],
+          context:
+            "Reveals knowledge gaps, confusion areas, and topics of interest.",
+          cross:
+            "Zero-friction entry point. \u201cYou looked up \u2018agentic AI\u2019 three times. Here\u2019s what it means for your team.\u201d",
+        },
+        {
+          num: 17,
+          name: "AI Use Case Spotter",
+          cat: "micro",
+          icp: "Team Leader, ICs",
+          effort: "1 week",
+          complexity: "Low",
+          vp: "From \u201cI wonder if AI could...\u201d to \u201chere\u2019s how\u201d in 3 minutes.",
+          pain: "People have a nagging feeling AI could help with a specific thing but don\u2019t know how to evaluate it.",
+          does: [
+            "User describes a specific task or pain point",
+            "Evaluates feasibility, expected leverage, implementation complexity",
+            "Returns a 1-page use case brief: what AI could do, what it can\u2019t, what to try first",
+            "Save to org\u2019s use case library",
+          ],
+          context:
+            "Ground-truth use case data \u2014 what people actually want AI to do.",
+          cross:
+            "Into ALI: \u201cYour team submitted 23 use cases. Want to see the full picture?\u201d",
+        },
+        {
+          num: 18,
+          name: "AI Decision Log",
+          cat: "micro",
+          icp: "All leader ICPs",
+          effort: "1 week",
+          complexity: "Low",
+          vp: "Remember every AI decision. Revisit the ones that matter.",
+          pain: "AI decisions are made in meetings and Slack threads \u2014 then lost. The same debates resurface.",
+          does: [
+            "60-second decision capture: what was decided, why, alternatives considered, expected outcome",
+            "Builds searchable organizational AI decision history",
+            "Periodically surfaces: \u201c3 months ago you decided X expecting Y. Want to revisit?\u201d",
+          ],
+          context:
+            "Decision patterns, strategic rationale, expected vs. actual outcomes.",
+          cross:
+            "Into Transformation Intelligence: \u201cYour decision log is the backbone of your transformation narrative.\u201d",
+        },
+        {
+          num: 19,
+          name: "AI Sentiment Pulse",
+          cat: "micro",
+          icp: "Team Leader, CHRO",
+          effort: "1 week",
+          complexity: "Low",
+          vp: "You can\u2019t lead an AI transformation you can\u2019t feel.",
+          pain: "Leaders don\u2019t know how their team feels about AI, and feelings drive adoption more than mandates do.",
+          does: [
+            "Monthly 2-minute anonymous pulse: excitement, anxiety, confidence, confusion, resistance",
+            "Tracks sentiment over time, alerts to shifts",
+            "Correlates sentiment with adoption data from ALI/Team Snapshot",
+          ],
+          context:
+            "Emotional/psychological posture data \u2014 the human context that makes recommendations realistic.",
+          cross:
+            "From ALI: \u201cYou know the facts. Now know the feelings.\u201d",
+        },
+        {
+          num: 20,
+          name: "AI Win Tracker",
+          cat: "micro",
+          icp: "Team Leader, AI Lead",
+          effort: "1 week",
+          complexity: "Low",
+          topPick: true,
+          vp: "Capture AI wins when they happen. Claim them when it matters.",
+          pain: "By the time the board meeting arrives, the wins are forgotten or diluted into \u201cwe did some training.\u201d",
+          does: [
+            "60-second win capture: what happened, who did it, what was the impact",
+            "Categorizes wins by maturity model: amplifying, rethinking, new possibilities",
+            "Maintains running win log with cumulative impact narrative",
+            "On-demand \u201cAI Win Reports\u201d for any audience",
+          ],
+          context:
+            "Real-world outcome data \u2014 the most credible form of ROI evidence.",
+          cross:
+            "Into Board Intelligence: \u201cYour board deck writes itself when the wins are already logged.\u201d",
+        },
+      ];
+
+      // ────────────────────────────────────────────
+      // STATE
+      // ────────────────────────────────────────────
+
+      const state = { tab: "redteam", view: "dashboard", category: null };
+
+      // ────────────────────────────────────────────
+      // RENDERING
+      // ────────────────────────────────────────────
+
+      const $ = (id) => document.getElementById(id);
+
+      function render() {
+        const content = $("content");
+        const backnav = $("backnav");
+
+        if (state.view === "dashboard") {
+          backnav.innerHTML = "";
+        } else {
+          backnav.innerHTML =
+            '<div class="back-nav"><button class="back-btn" onclick="goBack()">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>' +
+            "Back to overview</button></div>";
+        }
+
+        if (state.tab === "redteam") {
+          content.innerHTML =
+            state.view === "dashboard"
+              ? renderRTDashboard()
+              : renderRTCategory();
+        } else {
+          content.innerHTML =
+            state.view === "dashboard"
+              ? renderBSDashboard()
+              : renderBSCategory();
+        }
+      }
+
+      function renderRTDashboard() {
+        return (
+          '<div class="view-enter">' +
+          '<h2 class="section-title">Red Team Analysis</h2>' +
+          '<p class="section-sub">4 ICP agents &middot; 44 findings &middot; CEO responses &middot; March 2026</p>' +
+          '<div class="sev-bar">' +
+          '<div class="seg critical" onclick="drillSeverity(\'critical\')"><span class="count">11</span> Critical</div>' +
+          '<div class="seg high" onclick="drillSeverity(\'high\')"><span class="count">15</span> High</div>' +
+          '<div class="seg medium" onclick="drillSeverity(\'medium\')"><span class="count">16</span> Medium</div>' +
+          '<div class="seg low" onclick="drillSeverity(\'low\')"><span class="count">2</span> Low</div>' +
+          "</div>" +
+          '<div class="stat-grid">' +
+          '<div class="stat-card critical" onclick="drillSeverity(\'critical\')"><div class="num">11</div><div class="label">Critical</div><div class="note">Consensus issues across multiple ICPs</div></div>' +
+          '<div class="stat-card high" onclick="drillSeverity(\'high\')"><div class="num">15</div><div class="label">High</div><div class="note">Significant gaps requiring attention</div></div>' +
+          '<div class="stat-card medium" onclick="drillSeverity(\'medium\')"><div class="num">16</div><div class="label">Medium</div><div class="note">Important but not blocking</div></div>' +
+          '<div class="stat-card low" onclick="drillSeverity(\'low\')"><div class="num">2</div><div class="label">Low</div><div class="note">Minor framing concerns</div></div>' +
+          "</div>" +
+          '<div class="actions-section"><h3>Top 5 Priority Actions</h3>' +
+          TOP_ACTIONS.map(function (a, i) {
+            return (
+              '<div class="action-card"><div class="action-num">' +
+              (i + 1) +
+              '</div><div class="action-body"><h4>' +
+              a.title +
+              "</h4><p>" +
+              a.desc +
+              "</p></div></div>"
+            );
+          }).join("") +
+          "</div>" +
+          '<div class="opps-section"><h3>Opportunities Identified</h3>' +
+          OPPORTUNITIES.map(function (o) {
+            return (
+              '<div class="opp-card"><h4>' +
+              o.title +
+              "</h4><p>" +
+              o.desc +
+              '</p><div class="refs">' +
+              o.refs +
+              "</div></div>"
+            );
+          }).join("") +
+          "</div>" +
+          "</div>"
+        );
+      }
+
+      const POSITION_LABELS = {
+        agrees: "Agrees",
+        partially_agrees: "Partially Agrees",
+        disagrees: "Disagrees",
+        reframes: "Reframes",
+        defers: "Defers",
+        nuclear: "Nuclear",
+      };
+
+      function renderNishResponse(nish) {
+        if (!nish) return "";
+        var html =
+          '<div class="detail-section"><div class="ceo-response">' +
+          '<div class="detail-label">CEO Response</div>' +
+          '<div class="ceo-response-header">' +
+          '<span class="badge-position ' +
+          nish.position +
+          '">' +
+          POSITION_LABELS[nish.position] +
+          "</span>" +
+          "</div>" +
+          '<div class="ceo-response-text">' +
+          nish.response +
+          "</div>";
+        if (nish.new_info) {
+          html +=
+            '<div class="new-info-box"><div class="detail-label">New Information</div><p>' +
+            nish.new_info +
+            "</p></div>";
+        }
+        if (nish.action) {
+          html +=
+            '<div class="ceo-action-box"><div class="detail-label">Updated Action</div><p>' +
+            nish.action +
+            "</p></div>";
+        }
+        html += "</div></div>";
+        return html;
+      }
+
+      function icpClass(icp) {
+        if (icp.indexOf("Team Leader") >= 0) return "a1";
+        if (icp.indexOf("AI Enablement") >= 0 || icp.indexOf("Enablement") >= 0)
+          return "a2";
+        if (icp.indexOf("COO") >= 0) return "a3";
+        if (icp.indexOf("CFO") >= 0) return "a4";
+        return "a1";
+      }
+
+      function renderRTCategory() {
+        var sev = state.category;
+        var sevLabel = {
+          critical: "Critical",
+          high: "High",
+          medium: "Medium",
+          low: "Low",
+        }[sev];
+        var items;
+
+        if (sev === "critical") {
+          items = CRITICAL.map(function (f) {
+            return (
+              '<div class="finding-card" id="f-' +
+              f.id +
+              '">' +
+              '<div class="finding-header" onclick="toggleFinding(' +
+              f.id +
+              ')">' +
+              "<div>" +
+              '<div class="finding-id">#' +
+              f.id +
+              " &middot; " +
+              f.refs +
+              "</div>" +
+              '<div class="finding-title">' +
+              f.title +
+              "</div>" +
+              '<div class="finding-meta">' +
+              '<span class="badge badge-sev critical">Critical</span>' +
+              f.agents
+                .map(function (a) {
+                  return (
+                    '<span class="badge badge-icp ' +
+                    a +
+                    '">' +
+                    AGENTS[a].label +
+                    "</span>"
+                  );
+                })
+                .join("") +
+              (f.nish
+                ? '<span class="badge-position ' +
+                  f.nish.position +
+                  '">' +
+                  POSITION_LABELS[f.nish.position] +
+                  "</span>"
+                : "") +
+              "</div>" +
+              "</div>" +
+              '<svg class="finding-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>' +
+              "</div>" +
+              '<div class="finding-detail">' +
+              '<div class="detail-section"><div class="detail-label">Problem</div><div class="detail-text">' +
+              f.problem +
+              "</div></div>" +
+              '<div class="detail-section"><div class="detail-label">ICP Quotes</div>' +
+              f.quotes
+                .map(function (q) {
+                  return (
+                    '<div class="quote-block"><div class="quote-icp" style="color:var(--icp-' +
+                    icpClass(q.icp) +
+                    ')">' +
+                    q.icp +
+                    '</div><div class="quote-text">\u201c' +
+                    q.text +
+                    "\u201d</div></div>"
+                  );
+                })
+                .join("") +
+              "</div>" +
+              '<div class="detail-section"><div class="fix-block"><div class="detail-label">Recommended Fix</div><p>' +
+              f.fix +
+              "</p></div></div>" +
+              renderNishResponse(f.nish) +
+              "</div>" +
+              "</div>"
+            );
+          }).join("");
+        } else {
+          var data = sev === "high" ? HIGH : sev === "medium" ? MEDIUM : LOW;
+          items = data
+            .map(function (f, i) {
+              var hasDetail = !!f.issue || !!f.nish;
+              return (
+                '<div class="finding-card" id="f-' +
+                sev +
+                "-" +
+                i +
+                '">' +
+                '<div class="finding-header" onclick="toggleSimpleFinding(\'' +
+                sev +
+                "-" +
+                i +
+                "')\">" +
+                "<div>" +
+                '<div class="finding-id">' +
+                f.id +
+                "</div>" +
+                '<div class="finding-title">' +
+                f.title +
+                "</div>" +
+                '<div class="finding-meta">' +
+                '<span class="badge badge-sev ' +
+                sev +
+                '">' +
+                sevLabel +
+                "</span>" +
+                '<span class="badge badge-icp ' +
+                icpClass(f.icp) +
+                '">' +
+                f.icp +
+                "</span>" +
+                (f.nish
+                  ? '<span class="badge-position ' +
+                    f.nish.position +
+                    '">' +
+                    POSITION_LABELS[f.nish.position] +
+                    "</span>"
+                  : "") +
+                "</div>" +
+                "</div>" +
+                (hasDetail
+                  ? '<svg class="finding-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>'
+                  : "") +
+                "</div>" +
+                (hasDetail
+                  ? '<div class="finding-detail">' +
+                    (f.issue
+                      ? '<div class="detail-section"><div class="detail-label">Core Issue</div><div class="detail-text">' +
+                        f.issue +
+                        "</div></div>"
+                      : "") +
+                    renderNishResponse(f.nish) +
+                    "</div>"
+                  : "") +
+                "</div>"
+              );
+            })
+            .join("");
+        }
+
+        var count =
+          sev === "critical"
+            ? 11
+            : sev === "high"
+              ? 15
+              : sev === "medium"
+                ? 16
+                : 2;
+        return (
+          '<div class="view-enter">' +
+          '<h2 class="section-title">' +
+          sevLabel +
+          " Findings</h2>" +
+          '<p class="section-sub">' +
+          count +
+          " findings at this severity level</p>" +
+          items +
+          "</div>"
+        );
+      }
+
+      function renderBSDashboard() {
+        var catCounts = {};
+        Object.keys(CATEGORIES).forEach(function (k) {
+          catCounts[k] = PRODUCTS.filter(function (p) {
+            return p.cat === k;
+          }).length;
+        });
+        var topPicks = PRODUCTS.filter(function (p) {
+          return p.topPick;
+        });
+
+        return (
+          '<div class="view-enter">' +
+          '<h2 class="section-title">Product Suite Expansion</h2>' +
+          '<p class="section-sub">20 concepts across 6 categories</p>' +
+          '<div class="cat-grid">' +
+          Object.keys(CATEGORIES)
+            .map(function (k) {
+              var v = CATEGORIES[k];
+              return (
+                '<div class="cat-card ' +
+                v.color +
+                '" onclick="drillCategory(\'' +
+                k +
+                "')\">" +
+                '<div class="cat-count">' +
+                catCounts[k] +
+                "</div>" +
+                '<div class="cat-name">' +
+                v.label +
+                "</div>" +
+                '<div class="cat-desc">' +
+                v.desc +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("") +
+          "</div>" +
+          '<div class="picks-section"><h3>Highest-Leverage Additions</h3>' +
+          topPicks
+            .map(function (p) {
+              return (
+                '<div class="product-card top-pick" id="p-top-' +
+                p.num +
+                '">' +
+                '<div class="product-header" onclick="toggleProduct(\'top-' +
+                p.num +
+                "')\">" +
+                "<div>" +
+                '<div class="product-num">#' +
+                p.num +
+                " &middot; " +
+                CATEGORIES[p.cat].label +
+                "</div>" +
+                '<div class="product-name">' +
+                p.name +
+                "</div>" +
+                '<div class="product-vp">' +
+                p.vp +
+                "</div>" +
+                '<div class="product-meta">' +
+                '<span class="top-pick-badge">TOP PICK</span>' +
+                '<span class="meta-tag">' +
+                p.icp +
+                "</span>" +
+                '<span class="meta-tag">' +
+                p.effort +
+                "</span>" +
+                "</div>" +
+                "</div>" +
+                '<svg class="finding-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>' +
+                "</div>" +
+                '<div class="finding-detail">' +
+                renderProductDetail(p) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("") +
+          "</div>" +
+          "</div>"
+        );
+      }
+
+      function renderBSCategory() {
+        var cat = state.category;
+        var info = CATEGORIES[cat];
+        var products = PRODUCTS.filter(function (p) {
+          return p.cat === cat;
+        });
+
+        return (
+          '<div class="view-enter">' +
+          '<h2 class="section-title">' +
+          info.label +
+          "</h2>" +
+          '<p class="section-sub">' +
+          info.desc +
+          " &middot; " +
+          products.length +
+          " concepts</p>" +
+          products
+            .map(function (p) {
+              return (
+                '<div class="product-card ' +
+                (p.topPick ? "top-pick" : "") +
+                '" id="p-cat-' +
+                p.num +
+                '">' +
+                '<div class="product-header" onclick="toggleProduct(\'cat-' +
+                p.num +
+                "')\">" +
+                "<div>" +
+                '<div class="product-num">#' +
+                p.num +
+                "</div>" +
+                '<div class="product-name">' +
+                p.name +
+                "</div>" +
+                '<div class="product-vp">' +
+                p.vp +
+                "</div>" +
+                '<div class="product-meta">' +
+                (p.topPick
+                  ? '<span class="top-pick-badge">TOP PICK</span>'
+                  : "") +
+                '<span class="badge badge-cat ' +
+                info.color +
+                '">' +
+                info.label +
+                "</span>" +
+                '<span class="meta-tag">' +
+                p.icp +
+                "</span>" +
+                '<span class="meta-tag">' +
+                p.effort +
+                "</span>" +
+                '<span class="meta-tag">' +
+                p.complexity +
+                "</span>" +
+                "</div>" +
+                "</div>" +
+                '<svg class="finding-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>' +
+                "</div>" +
+                '<div class="finding-detail">' +
+                renderProductDetail(p) +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("") +
+          "</div>"
+        );
+      }
+
+      function renderProductDetail(p) {
+        return (
+          '<div class="detail-section"><div class="detail-label">Pain it solves</div><div class="detail-text">' +
+          p.pain +
+          "</div></div>" +
+          '<div class="detail-section"><div class="detail-label">What it does</div><ul>' +
+          p.does
+            .map(function (d) {
+              return "<li>" + d + "</li>";
+            })
+            .join("") +
+          "</ul></div>" +
+          '<div class="detail-section"><div class="detail-label">Context dividend</div><div class="detail-text">' +
+          p.context +
+          "</div></div>" +
+          '<div class="detail-section"><div class="fix-block" style="border-left-color:var(--cat-' +
+          p.cat +
+          ')"><div class="detail-label" style="color:var(--cat-' +
+          p.cat +
+          ')">Cross-sell hook</div><p>' +
+          p.cross +
+          "</p></div></div>"
+        );
+      }
+
+      // ────────────────────────────────────────────
+      // INTERACTIONS
+      // ────────────────────────────────────────────
+
+      function drillSeverity(sev) {
+        state.view = "category";
+        state.category = sev;
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function drillCategory(cat) {
+        state.view = "category";
+        state.category = cat;
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function goBack() {
+        state.view = "dashboard";
+        state.category = null;
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function toggleFinding(id) {
+        document.getElementById("f-" + id).classList.toggle("expanded");
+      }
+
+      function toggleSimpleFinding(id) {
+        var el = document.getElementById("f-" + id);
+        if (el.querySelector(".finding-detail"))
+          el.classList.toggle("expanded");
+      }
+
+      function toggleProduct(id) {
+        document.getElementById("p-" + id).classList.toggle("expanded");
+      }
+
+      // Tab switching
+      document.querySelectorAll(".tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          document.querySelectorAll(".tab").forEach(function (t) {
+            t.classList.remove("active");
+          });
+          tab.classList.add("active");
+          state.tab = tab.dataset.tab;
+          state.view = "dashboard";
+          state.category = null;
+          render();
+        });
+      });
+
+      // Initial render
+      render();
+    </script>
+  </body>
+</html>

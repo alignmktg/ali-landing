@@ -8,6 +8,7 @@
       name="description"
       content="Ground-truth intelligence about your team's AI — who's thriving, who's struggling, and what everyone is missing. Make smarter decisions or don't pay."
     />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -276,6 +277,37 @@
         transition: transform 0.3s ease;
       }
       .btn-primary:hover svg {
+        transform: translateX(4px);
+      }
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-body);
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--navy);
+        background: transparent;
+        padding: 16px 36px;
+        border-radius: 8px;
+        text-decoration: none;
+        border: 1.5px solid var(--navy-30);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        letter-spacing: 0.01em;
+      }
+      .btn-secondary:hover {
+        border-color: var(--green);
+        color: var(--green);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(21, 122, 78, 0.1);
+      }
+      .btn-secondary svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.3s ease;
+      }
+      .btn-secondary:hover svg {
         transform: translateX(4px);
       }
       .hero-guarantee {
@@ -958,6 +990,20 @@
         <div class="hero-cta-row reveal reveal-delay-3">
           <a href="#cta" class="btn-primary">
             Book a 15-minute call
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+          <a href="https://v0-ai-leadership-intelligence-report.vercel.app/" target="_blank" rel="noopener" class="btn-secondary">
+            See a sample report
             <svg
               viewBox="0 0 24 24"
               fill="none"
